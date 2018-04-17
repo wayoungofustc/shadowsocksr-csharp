@@ -265,6 +265,10 @@ namespace Shadowsocks.View
                 CreateMenuItem("Scan QRCode from screen...", new EventHandler(this.ScanQRCodeItem_Click)),
                 CreateMenuItem("Import SSR links from clipboard...", new EventHandler(this.CopyAddress_Click)),
                 new MenuItem("-"),
+                CreateMenuGroup("Hot Key", new MenuItem[] {
+                     CreateMenuItem("Manage HotKey",new EventHandler(this.ManageHotKeys_Click)),
+                    
+                }),
                 CreateMenuGroup("Help", new MenuItem[] {
                     CreateMenuItem("Check update", new EventHandler(this.CheckUpdate_Click)),
                     CreateMenuItem("Show logs...", new EventHandler(this.ShowLogItem_Click)),
@@ -1079,7 +1083,10 @@ namespace Shadowsocks.View
             MenuItem item = (MenuItem)sender;
             controller.SelectServerIndex((int)item.Tag);
         }
-
+        private void ManageHotKeys_Click(object sender,EventArgs e)
+        {
+            //todo
+        }
         private void CheckUpdate_Click(object sender, EventArgs e)
         {
             updateChecker.CheckUpdate(controller.GetCurrentConfiguration());
