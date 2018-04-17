@@ -54,6 +54,7 @@ namespace Shadowsocks.View
         private ServerLogForm serverLogForm;
         private PortSettingsForm portMapForm;
         private SubscribeForm subScribeForm;
+        private HotkeySettingsForm hotkeySettingsForm;
         private LogForm logForm;
         private string _urlToOpen;
         private System.Timers.Timer timerDelayCheckUpdate;
@@ -792,6 +793,27 @@ namespace Shadowsocks.View
                 logForm.FormClosed += globalLogForm_FormClosed;
             }
         }
+        private void ShowHotKeySettingsForm()
+        {
+            if (hotkeySettingsForm != null)
+            {
+                hotkeySettingsForm.Activate();
+            }
+            else
+            {
+                hotkeySettingsForm = new HotkeySettingsForm(controller);
+                hotkeySettingsForm.Show();
+                hotkeySettingsForm.Activate();
+                hotkeySettingsForm.FormClosed += hotkeySettingsForm_FormClosed;
+            }
+        }
+        void hotkeySettingsForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            hotkeySettingsForm.Dispose();
+            hotkeySettingsForm = null;
+            Util.Utils.ReleaseMemory();
+            //Utils.ReleaseMemory(true);
+        }
 
         private void ShowSubscribeSettingForm()
         {
@@ -1085,7 +1107,7 @@ namespace Shadowsocks.View
         }
         private void ManageHotKeys_Click(object sender,EventArgs e)
         {
-            //todo
+            ShowHotKeySettingsForm();
         }
         private void CheckUpdate_Click(object sender, EventArgs e)
         {

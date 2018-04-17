@@ -107,7 +107,20 @@ namespace Shadowsocks.Controller
         {
             return _config;
         }
-
+        // always return copy
+        public Configuration GetConfigurationCopy()
+        {
+            return Configuration.Load();
+        }
+        public void ToggleEnable(bool enabled)
+        {
+            _config.enabled = enabled;
+            SaveConfig(_config);/*
+            if (EnableStatusChanged != null)
+            {
+                EnableStatusChanged(this, new EventArgs());
+            }*/
+        }
         private int FindFirstMatchServer(Server server, List<Server> servers)
         {
             for (int i = 0; i < servers.Count; ++i)
@@ -519,7 +532,15 @@ namespace Shadowsocks.Controller
             Reload();
         }
 
-
+        public void SaveHotkeyConfig(HotkeyConfig newConfig)
+        {
+            _config.hotkey = newConfig;
+            SaveConfig(_config);
+            if (ConfigChanged != null)
+            {
+                ConfigChanged(this, new EventArgs());
+            }
+        }
         private void UpdateSystemProxy()
         {
 #if !_CONSOLE

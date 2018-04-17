@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 using Shadowsocks.Encryption;
+using Newtonsoft.Json;
 
 namespace Shadowsocks.Model
 {
@@ -127,7 +128,7 @@ namespace Shadowsocks.Model
         private Dictionary<string, UriVisitTime> uri2time = new Dictionary<string, UriVisitTime>();
         private SortedDictionary<UriVisitTime, string> time2uri = new SortedDictionary<UriVisitTime, string>();
         private Dictionary<int, PortMapConfigCache> portMapCache = new Dictionary<int, PortMapConfigCache>();
-
+        public HotkeyConfig hotkey;
         private static string CONFIG_FILE = "gui-config.json";
 
         public static void SetPassword(string password)
@@ -497,6 +498,10 @@ namespace Shadowsocks.Model
             try
             {
                 string configContent = File.ReadAllText(filename);
+                /*
+                if (config.hotkey == null)
+                    config.hotkey = new HotkeyConfig();
+                    */
                 return Load(configContent);
             }
             catch (Exception e)
@@ -570,6 +575,9 @@ namespace Shadowsocks.Model
             {
                 Configuration config = SimpleJson.SimpleJson.DeserializeObject<Configuration>(config_str, new JsonSerializerStrategy());
                 config.FixConfiguration();
+                //toTest
+                if (config.hotkey == null)
+                    config.hotkey = new HotkeyConfig();
                 return config;
             }
             catch
